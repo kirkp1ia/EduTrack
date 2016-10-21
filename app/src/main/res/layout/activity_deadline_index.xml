@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app=" "
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_deadline_index"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    tools:context="edu.cmich.kirkp1ia.cps596.edutrack.DeadlineIndexActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:id="@+id/button"
+                android:background="@android:drawable/ic_menu_add"
+                android:layout_width="50dp" />
+
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:text="Programming Assignment 2"
+                            android:layout_width="318dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp"
+                            android:paddingLeft="20dp" />
+
+                        <TextView
+                            android:text="9/29"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView2"
+                            android:layout_weight="1"
+                            android:paddingBottom="15dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="15dp"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:text="Study for Exam"
+                            android:layout_width="318dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView3"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp"
+                            android:paddingLeft="20dp" />
+
+                        <TextView
+                            android:text="9/30"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView4"
+                            android:layout_weight="1"
+                            android:paddingBottom="15dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="15dp"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </TableLayout>
+    </LinearLayout>
+
+</RelativeLayout>
