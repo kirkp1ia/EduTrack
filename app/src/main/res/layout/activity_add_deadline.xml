@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:weightSum="1">
 
         <EditText
             android:layout_width="match_parent"
@@ -49,12 +50,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/button2"
             android:elevation="0dp"
-            style="@style/Widget.AppCompat.Button.Small" />
+            style="@style/Widget.AppCompat.Button.Small"
+            android:onClick="addBenchmarkPressed" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:id="@+id/view_benchmarks"
+            android:layout_weight="0.01">
+
+        </LinearLayout>
 
         <Button
             android:text="Finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button3" />
+            android:id="@+id/button3"
+            android:onClick="finishPressed" />
     </LinearLayout>
 </RelativeLayout>

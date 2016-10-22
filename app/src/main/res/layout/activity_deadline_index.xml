@@ -31,7 +31,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button"
                 android:background="@android:drawable/ic_menu_add"
-                android:layout_width="50dp" />
+                android:layout_width="50dp"
+                android:onClick="addDeadlinePressed" />
 
         </LinearLayout>
 
