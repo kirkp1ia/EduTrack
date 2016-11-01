@@ -1,0 +1,22 @@
+Features:
+    GUI:
+        Create deadlines
+        Create multiple deadlines for one deadline (Benchmarks)
+        View Deadlines
+        Mark deadlines as complete (including benchmarks)
+        Delete Deadlines
+    Backend:
+        Send notification the morning of the deadline/benchmark
+
+
+Work Plan:
+    Milestone 1 - Nov. 8:
+        Create class for Deadline and benchmark
+    Milestone 2 - Nov 15:
+        Get date pickers to work with gui
+        Allow user to mark deadline as done
+        Create GUI for viewing a deadline
+    Milestone 3 - Nov 22:
+        Have backend service that notifies user
+            when a benchmark or deadline is due
+        Allow user to delete deadlines/benchmarks
