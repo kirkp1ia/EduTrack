@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">EduTrack</string>
+    <string name="path__deadline_storage">deadlines/</string>
+    <string name="path__deadline_ids">deadlines/ids</string>
     <string-array name="view_types">
         <item>Day</item>
         <item>Week</item>

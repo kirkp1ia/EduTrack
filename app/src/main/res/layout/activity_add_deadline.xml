@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="66dp"
             android:id="@+id/view_benchmarks"
-            android:layout_weight="0.01">
+            android:layout_weight="1.02">
 
         </LinearLayout>
 
