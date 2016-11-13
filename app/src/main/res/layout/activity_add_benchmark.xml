@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:scrollbarStyle="outsideOverlay">
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/benchmark_date_picker"
+            android:headerBackground="?attr/colorPrimary"
+            android:calendarTextColor="@color/colorPrimaryDark"
+            android:datePickerMode="spinner"
+            android:layout_weight="2.10"
+            android:spinnersShown="true"
+            android:calendarViewShown="false" />
+
+        <TimePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numbersSelectorColor="?attr/colorPrimary"
+            android:headerBackground="?attr/colorPrimary"
+            android:id="@+id/benchmark_time_picker" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/input_benchmark_desc"
+            android:maxLines="@android:integer/config_shortAnimTime"
+            android:hint="Description"
+            android:inputType="textShortMessage"
+            android:layout_marginTop="15dp" />
+
+        <Button
+            android:text="Add Benchmark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_add_benchmark"
+            android:layout_marginTop="15dp"
+            android:onClick="finalizeAddBenchmark" />
+    </LinearLayout>
+</ScrollView>

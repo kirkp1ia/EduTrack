@@ -40,7 +40,7 @@ public class Deadline {
      * @param date
      * @throws FileNotFoundException
      */
-    public Deadline(Context context, String date, String notes, String description) throws FileNotFoundException {
+    public Deadline(Context context, Calendar date, String notes, String description) throws FileNotFoundException {
 
         this.id = this.getNextId(context);
         this.location = context.getResources().getString(R.string.path__deadline_storage) + this.id + "." + FILE_EXTENSION;
@@ -48,7 +48,7 @@ public class Deadline {
         this.description = description;
         this.notes = notes;
 
-        this.setDeadline(date);
+        this.deadline = date;
     }
 
     /**
@@ -85,8 +85,16 @@ public class Deadline {
         }
     }
 
-    public void addBenchMark(String description, String deadline) {
+    public void addBenchMark(String description, int[] deadline) {
         this.benchmarks.add(new BenchMark(description, deadline));
+    }
+
+    public void addBenchMark(BenchMark benchMark) {
+        this.benchmarks.add(benchMark);
+    }
+
+    public void addBenchMarks(ArrayList<BenchMark> benchmarks) {
+        this.benchmarks.addAll(benchmarks);
     }
 
     private void readBenchmarks(JSONObject deadlineObj) {
@@ -107,30 +115,6 @@ public class Deadline {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    private void setDeadline(String deadline) {
-        String date = deadline.split(" ")[0];
-        String time = deadline.split(" ")[1];
-        String am_pm = deadline.split(" ")[2];
-
-        Log.d(TAG, date);
-        Log.d(TAG, time);
-        Log.d(TAG, am_pm);
-
-        int m = Integer.valueOf(date.split("/")[0]) - 1;
-        int d = Integer.valueOf(date.split("/")[1]);
-        int y = Integer.valueOf(date.split("/")[2]);
-
-        int hour = Integer.valueOf(time.split(":")[0]);
-        int minute = Integer.valueOf(time.split(":")[1]);
-
-        if ("pm,p.m.,Pm,P.m.,pM,p.M.,PM,P.M.".contains(am_pm)) {
-            hour = hour + 12;
-        }
-
-        this.deadline = Calendar.getInstance();
-        this.deadline.set(y, m, d, hour, minute);
     }
 
     private int getNextId(Context context) throws FileNotFoundException {

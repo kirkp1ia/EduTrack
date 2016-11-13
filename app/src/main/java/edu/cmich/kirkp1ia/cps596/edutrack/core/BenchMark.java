@@ -1,7 +1,5 @@
 package edu.cmich.kirkp1ia.cps596.edutrack.core;
 
-import android.util.Log;
-
 import java.util.Calendar;
 
 /**
@@ -32,7 +30,7 @@ public class BenchMark {
 
     private Calendar deadline;
 
-    public BenchMark(String description, String deadline) {
+    public BenchMark(String description, int[] deadline) {
         this.description = description;
         this.setDeadline(deadline);
     }
@@ -43,27 +41,12 @@ public class BenchMark {
         this.deadline.setTimeInMillis(deadline);
     }
 
-    private void setDeadline(String deadline) {
-        String date = deadline.split(" ")[0];
-        String time = deadline.split(" ")[1];
-        String am_pm = deadline.split(" ")[2];
-
-        Log.d(TAG, date);
-        Log.d(TAG, time);
-        Log.d(TAG, am_pm);
-
-        int m = Integer.valueOf(date.split("/")[0]) - 1;
-        int d = Integer.valueOf(date.split("/")[1]);
-        int y = Integer.valueOf(date.split("/")[2]);
-
-        int hour = Integer.valueOf(time.split(":")[0]);
-        int minute = Integer.valueOf(time.split(":")[1]);
-
-        if ("pm,p.m.,Pm,P.m.,pM,p.M.,PM,P.M.".contains(am_pm)) {
-            hour = hour + 12;
-        }
-
+    private void setDeadline(int[] deadline) {
         this.deadline = Calendar.getInstance();
-        this.deadline.set(y, m, d, hour, minute);
+        this.deadline.set(deadline[0], deadline[1], deadline[2], deadline[3], deadline[4]);
+    }
+
+    public String toString() {
+        return this.deadline.getTime().toString() + " - " + this.description;
     }
 }

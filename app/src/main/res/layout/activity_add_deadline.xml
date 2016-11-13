@@ -1,72 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app=" "
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_add_deadline"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="edu.cmich.kirkp1ia.cps596.edutrack.AddDeadline">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:scrollbarStyle="outsideOverlay"
+    android:id="@+id/rootView">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
+        android:id="@+id/activity_add_deadline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:weightSum="1">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/editText"
-            android:hint="Quick Description"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/editText2"
-            android:hint="Notes"
-            android:singleLine="false" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/editText3"
-            android:hint="Due Date" />
-
-        <Button
-            android:text="Add Benchmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button2"
-            android:elevation="0dp"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:onClick="addBenchmarkPressed" />
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="edu.cmich.kirkp1ia.cps596.edutrack.ActivityAddDeadline">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:id="@+id/view_benchmarks"
-            android:layout_weight="1.02">
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
 
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/deadline_date_picker"
+                android:headerBackground="?attr/colorPrimary"
+                android:calendarTextColor="@color/colorPrimaryDark"
+                android:datePickerMode="spinner"
+                android:spinnersShown="true"
+                android:calendarViewShown="false" />
+
+            <TimePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numbersSelectorColor="?attr/colorPrimary"
+                android:headerBackground="?attr/colorPrimary"
+                android:id="@+id/deadline_time_picker"
+                android:nestedScrollingEnabled="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/input_deadline_desc"
+                android:hint="Quick Description"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/input_deadline_notes"
+                android:hint="Notes" />
+
+            <Button
+                android:text="Add Benchmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:elevation="0dp"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:onClick="addBenchmarkPressed" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:id="@+id/benchmark_scroll_view"
+                android:layout_height="wrap_content">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view_benchmarks"
+                    android:nestedScrollingEnabled="true" />
+            </ScrollView>
+
+            <Button
+                android:text="Finish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button3"
+                android:onClick="finishPressed" />
         </LinearLayout>
+    </RelativeLayout>
 
-        <Button
-            android:text="Finish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button3"
-            android:onClick="finishPressed" />
-    </LinearLayout>
-</RelativeLayout>
+</ScrollView>

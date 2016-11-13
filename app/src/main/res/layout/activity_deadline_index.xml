@@ -10,7 +10,7 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
-    tools:context="edu.cmich.kirkp1ia.cps596.edutrack.DeadlineIndexActivity">
+    tools:context="edu.cmich.kirkp1ia.cps596.edutrack.ActivityDeadlineIndex">
 
     <LinearLayout
         android:orientation="vertical"
