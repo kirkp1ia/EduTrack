@@ -24,7 +24,8 @@
             android:layout_height="match_parent"
             android:weightSum="1"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:id="@+id/add_deadline_view_content">
 
             <DatePicker
                 android:layout_width="match_parent"

@@ -26,15 +26,11 @@ public class Deadline {
     private static final String FILE_EXTENSION = "ddln";
     private static final String TAG = "Deadline";
 
-    private int id;
-    public int getId() {
-        return this.id;
-    }
-
-    private String description;
-    private String notes;
-    private Calendar deadline;
-    private ArrayList<BenchMark> benchmarks = new ArrayList<BenchMark>();
+    private int id;                                                                                 public int getId() { return this.id; }
+    private String description;                                                                     public String getDescription() { return this.description; }
+    private String notes;                                                                           public String getNotes() { return this.notes; }
+    private Calendar deadline;                                                                      public Calendar getDeadline() { return this.deadline; }
+    private ArrayList<BenchMark> benchmarks = new ArrayList<BenchMark>();                                   public ArrayList<BenchMark> getBenchmarks() { return this.benchmarks; }
 
     private String location;
 
@@ -137,7 +133,6 @@ public class Deadline {
 
     public void save(Context context) throws IOException {
         File location = new File(context.getFilesDir(), this.location);
-        Log.d(TAG, this.location);
         if (location.exists()) {
             /*
              * This deadline is stored so just overwrite it.
@@ -154,6 +149,23 @@ public class Deadline {
             } else {
                 Log.d(TAG, "Could not create file: " + this.location);
             }
+        }
+    }
+
+    public void delete(Context context) {
+        File location = new File(context.getFilesDir(), this.location);
+
+        if (location.exists()) {
+            location.delete();
+        }
+    }
+
+    public static void delete(Context context, int id) {
+        try {
+            Deadline toDelete = new Deadline(context, id);
+            toDelete.delete(context);
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, "deadline: " + id + " doesn't exist.");
         }
     }
 
