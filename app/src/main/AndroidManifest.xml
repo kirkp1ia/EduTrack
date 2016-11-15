@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".ActivityAddDeadline" />
         <activity android:name=".ActivityAddBenchmark"></activity>
+        <activity android:name=".ActivityViewDeadline"></activity>
     </application>
 
 </manifest>

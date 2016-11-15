@@ -26,8 +26,8 @@ public class ActivityAddDeadline extends AppCompatActivity {
     private final String TAG = "Deadline Add";
 
     // Each array list in this list is a pairing of name, deadlinePicker EditText inputs.//
-    private ArrayList<BenchMark> benchmarksToAdd = new ArrayList<BenchMark>();
-    private ArrayAdapter<BenchMark> benchmarkAdapter;
+    protected ArrayList<BenchMark> benchmarksToAdd = new ArrayList<BenchMark>();
+    protected ArrayAdapter<BenchMark> benchmarkAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class ActivityAddDeadline extends AppCompatActivity {
         this.refreshUI();
     }
 
-    private void refreshUI() {
+    protected void refreshUI() {
         this.benchmarkAdapter = new ArrayAdapter<BenchMark>(this, R.layout.listview_item_benchmark, this.benchmarksToAdd);
         ListView benchmarkView = (ListView) this.findViewById(R.id.view_benchmarks);
         benchmarkView.setAdapter(this.benchmarkAdapter);

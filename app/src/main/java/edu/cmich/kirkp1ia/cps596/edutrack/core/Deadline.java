@@ -27,6 +27,10 @@ public class Deadline {
     private static final String TAG = "Deadline";
 
     private int id;
+    public int getId() {
+        return this.id;
+    }
+
     private String description;
     private String notes;
     private Calendar deadline;
@@ -151,6 +155,14 @@ public class Deadline {
                 Log.d(TAG, "Could not create file: " + this.location);
             }
         }
+    }
+
+    public String getDeadlineString() {
+        return this.deadline.getTime().toString();
+    }
+
+    public String getDescriptionString() {
+        return this.description;
     }
 
     public String toString() {

@@ -15,8 +15,10 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -36,99 +38,37 @@
 
         </LinearLayout>
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0">
+            android:id="@+id/deadline_display_view"
+            android:orientation="vertical">
 
-            <TableRow
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:orientation="vertical"
+                <TextView
+                    android:text="Programming Assignment 2"
+                    android:layout_width="318dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingLeft="20dp" />
+
+                <TextView
+                    android:text="9/29"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="15dp"
+                    android:textAlignment="center" />
+            </LinearLayout>
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+        </LinearLayout>
 
-                        <TextView
-                            android:text="Programming Assignment 2"
-                            android:layout_width="318dp"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:paddingLeft="20dp" />
-
-                        <TextView
-                            android:text="9/29"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/textView2"
-                            android:layout_weight="1"
-                            android:paddingBottom="15dp"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="15dp"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:text="Study for Exam"
-                            android:layout_width="318dp"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView3"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:paddingLeft="20dp" />
-
-                        <TextView
-                            android:text="9/30"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/textView4"
-                            android:layout_weight="1"
-                            android:paddingBottom="15dp"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="15dp"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </TableLayout>
     </LinearLayout>
 
 </RelativeLayout>
