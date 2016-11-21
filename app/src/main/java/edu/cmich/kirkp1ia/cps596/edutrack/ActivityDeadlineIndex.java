@@ -79,7 +79,7 @@ public class ActivityDeadlineIndex extends AppCompatActivity {
                 Calendar now = Calendar.getInstance();
                 long daysBetween = deadline - now.getTimeInMillis();
 
-                if (daysBetween <= 6.048e8) {
+                if (daysBetween <= Long.valueOf(this.getString(R.string.millis_in_seven_days))) {
                     Deadline d = new Deadline(context, deadlineId);
                     LinearLayout deadlineDisplay = this.getDeadlineDisplay(d);
 
