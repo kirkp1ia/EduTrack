@@ -44,29 +44,6 @@
             android:id="@+id/deadline_display_view"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="Programming Assignment 2"
-                    android:layout_width="318dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp"
-                    android:paddingLeft="20dp" />
-
-                <TextView
-                    android:text="9/29"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="15dp"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
         </LinearLayout>
 
     </LinearLayout>

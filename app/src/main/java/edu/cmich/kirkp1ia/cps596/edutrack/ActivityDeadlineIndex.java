@@ -1,5 +1,6 @@
 package edu.cmich.kirkp1ia.cps596.edutrack;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -13,8 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Scanner;
 
 import edu.cmich.kirkp1ia.cps596.edutrack.core.Deadline;
 
@@ -50,18 +58,50 @@ public class ActivityDeadlineIndex extends AppCompatActivity {
             }
         }
 
-        this.loadDeadlines();
+        try {
+            this.loadDeadlines(this.getApplicationContext());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void loadDeadlines() {
+    private void loadDeadlines(Context context) throws FileNotFoundException {
         LinearLayout display = (LinearLayout) this.findViewById(R.id.deadline_display_view);
 
+        JSONArray allFuture = this.getAllFutureDeadlines(context);
+
+        for (int i = 0; i < allFuture.length(); i ++) {
+            try {
+                JSONArray deadlineArr = allFuture.getJSONArray(i);
+                long deadline = deadlineArr.getLong(0);
+                int deadlineId = deadlineArr.getInt(1);
+
+                Calendar now = Calendar.getInstance();
+                long daysBetween = deadline - now.getTimeInMillis();
+
+                if (daysBetween <= 6.048e8) {
+                    Deadline d = new Deadline(context, deadlineId);
+                    LinearLayout deadlineDisplay = this.getDeadlineDisplay(d);
+
+                    display.addView(deadlineDisplay);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private JSONArray getAllFutureDeadlines(Context context) throws FileNotFoundException {
+        File upcomingDeadlines = new File(context.getFilesDir(), this.getString(R.string.path__deadlines_upcoming));
+        Scanner scnr = new Scanner(upcomingDeadlines).useDelimiter("\\Z");
         try {
-            Deadline d = new Deadline(this.getApplicationContext(), 1);
-            LinearLayout row = this.getDeadlineDisplay(d);
-            display.addView(row);
-        } catch (FileNotFoundException e) {
-            Log.d(TAG, "Can't find deadline: " + 1);
+            JSONObject json = new JSONObject(scnr.next());
+            JSONArray deadlinesInFuture = json.getJSONArray("deadlines");
+            scnr.close();
+            return deadlinesInFuture;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return new JSONArray();
         }
     }
 

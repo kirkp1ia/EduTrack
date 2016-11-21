@@ -1,16 +1,24 @@
 package edu.cmich.kirkp1ia.cps596.edutrack;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TimePicker;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import edu.cmich.kirkp1ia.cps596.edutrack.core.Deadline;
@@ -21,11 +29,14 @@ import edu.cmich.kirkp1ia.cps596.edutrack.core.Deadline;
 
 public class ActivityViewDeadline extends ActivityAddDeadline {
 
+    public static final String TAG = "View Deadline";
+
     protected Deadline editingDeadline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle extras = this.getIntent().getExtras();
+        Log.d(TAG, Arrays.toString(extras.keySet().toArray()));
         if (extras != null) {
             load(extras.getInt("deadline_id"));
         }
@@ -53,6 +64,7 @@ public class ActivityViewDeadline extends ActivityAddDeadline {
         submitButton.setText("Submit Changes");
 
         Button deleteButton = new Button(this.getApplicationContext());
+        deleteButton.setId(R.id.btn_view_deadline_delete);
         TableRow.LayoutParams delBtnParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         deleteButton.setLayoutParams(delBtnParams);
         deleteButton.setText("Delete Deadline");
@@ -67,7 +79,28 @@ public class ActivityViewDeadline extends ActivityAddDeadline {
         });
 
         LinearLayout root = (LinearLayout) this.findViewById(R.id.add_deadline_view_content);
-        root.addView(deleteButton);
+        if (this.findViewById(R.id.btn_view_deadline_delete) == null) {
+            root.addView(deleteButton);
+        }
+
+        Button markDoneButton = new Button(this.getApplicationContext());
+        markDoneButton.setId(R.id.btn_view_deadline_markdone);
+        TableRow.LayoutParams mkDoneBtnParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+        markDoneButton.setLayoutParams(delBtnParams);
+        markDoneButton.setText("Complete Deadline");
+
+        markDoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editingDeadline.delete(v.getContext());
+                Intent indexIntent = new Intent(v.getContext(), ActivityDeadlineIndex.class);
+                startActivity(indexIntent);
+            }
+        });
+
+        if (this.findViewById(R.id.btn_view_deadline_markdone) == null) {
+            root.addView(markDoneButton);
+        }
 
         DatePicker dpicker = (DatePicker) this.findViewById(R.id.deadline_date_picker);
         TimePicker tpicker = (TimePicker) this.findViewById(R.id.deadline_time_picker);
@@ -86,6 +119,48 @@ public class ActivityViewDeadline extends ActivityAddDeadline {
 
         desc.setText(this.editingDeadline.getDescription());
         notes.setText(this.editingDeadline.getNotes());
+
+        ListView benchmarksView = (ListView) this.findViewById(R.id.view_benchmarks);
+
+        final Context context = this;
+
+        benchmarksView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                Log.d(TAG, "click!");
+                AlertDialog.Builder markCompletePrompt = new AlertDialog.Builder(context);
+                markCompletePrompt.setTitle("Mark Benchmark Complete");
+                markCompletePrompt.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            Deadline d = editingDeadline.removeBenchmark(getApplicationContext(), position);
+                            d.save(context);
+                            finish();
+                            Intent intent = new Intent(getApplicationContext(), ActivityViewDeadline.class);
+                            intent.putExtra("deadline_id", d.getId());
+                            startActivity(intent);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    }
+
+                });
+                markCompletePrompt.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog prompt = markCompletePrompt.create();
+                prompt.show();
+            }
+
+        });
     }
 
     @Override
@@ -93,5 +168,17 @@ public class ActivityViewDeadline extends ActivityAddDeadline {
         this.editingDeadline.delete(this.getApplicationContext());
 
         super.finishPressed(v);
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 }

@@ -69,6 +69,9 @@ public class ActivityAddDeadline extends AppCompatActivity {
                 return false;
             }
         });
+
+        DatePicker deadlineDatePicker = (DatePicker) this.findViewById(R.id.deadline_date_picker);
+        deadlineDatePicker.setMinDate(Calendar.getInstance().getTimeInMillis());
     }
 
     @Override
@@ -106,6 +109,7 @@ public class ActivityAddDeadline extends AppCompatActivity {
         Log.d(this.TAG, "New Benchmark");
 
         Intent addBenchmarkIntent = new Intent(this, ActivityAddBenchmark.class);
+        addBenchmarkIntent.putExtra("maxDate", this.getInputDeadline().getTimeInMillis());
         this.startActivityForResult(addBenchmarkIntent, ActivityAddBenchmark.REQUEST_NEW_BENCHMARK);
     }
 

@@ -3,6 +3,7 @@ package edu.cmich.kirkp1ia.cps596.edutrack;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -20,16 +21,23 @@ public class ActivityAddBenchmark extends AppCompatActivity {
 
     public static final int REQUEST_NEW_BENCHMARK = 1;
 
+    protected long maxDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_benchmark);
+
+        this.maxDate = this.getIntent().getLongExtra("maxDate", 0);
+
         this.refreshUI();
     }
 
     private void refreshUI() {
         DatePicker benchmarkDatePicker = (DatePicker) this.findViewById(R.id.benchmark_date_picker);
         benchmarkDatePicker.setMinDate(Calendar.getInstance().getTimeInMillis());
+        benchmarkDatePicker.setMaxDate(this.maxDate);
+        Log.d(TAG, "Max Date: " + this.maxDate + ", Min Date: " + Calendar.getInstance().getTimeInMillis() + " for difference of " + (this.maxDate - Calendar.getInstance().getTimeInMillis()) +  " milliseconds.");
     }
 
     public void finalizeAddBenchmark(View button) {
