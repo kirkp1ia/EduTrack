@@ -3,9 +3,10 @@
     <string name="path__deadline_storage">deadlines/</string>
     <string name="path__deadline_ids">deadlines/ids</string>
     <string name="path__deadlines_upcoming">deadlines/upcoming.json</string>
-    <string name="millis_in_seven_days">6.048e8</string>
-    <string name="millis_in_twelve_hours">4.32e7</string>
-    <string name="millis_in_two_hours">7.2e6</string>
+    <string name="millis_in_seven_days">604800000</string>
+    <string name="millis_in_twelve_hours">43200000</string>
+    <string name="millis_in_two_hours">7200000</string>
+    <string name="millis_in_one_hour">3600000</string>
     <string-array name="view_types">
         <item>Day</item>
         <item>Week</item>

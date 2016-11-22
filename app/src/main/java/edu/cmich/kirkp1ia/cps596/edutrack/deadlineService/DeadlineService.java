@@ -1,5 +1,6 @@
 package edu.cmich.kirkp1ia.cps596.edutrack.deadlineService;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +17,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Scanner;
 
@@ -28,6 +30,8 @@ import edu.cmich.kirkp1ia.cps596.edutrack.core.Deadline;
  */
 
 public class DeadlineService extends Service {
+
+    private static final String TAG = "Deadline Service";
 
     private DeadlineNotifierThread deadlineNotifier;
 
@@ -64,17 +68,25 @@ public class DeadlineService extends Service {
         @Override
         public void run() {
             this.running = true;
+            try {
+                new File(getApplication().getFilesDir(), "deadlines/serviceRunning.txt").createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             while (this.running) {
 
                 try {
-                    ArrayList<Deadline> deadlinesToNotify = this.getDueDeadlinesToday(getApplicationContext());
+                    Log.d(TAG, "hi");
+                    this.getDueDeadlinesToday(getApplicationContext());
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        private ArrayList<Deadline> getDueDeadlinesToday(Context context) throws FileNotFoundException {
+        private void getDueDeadlinesToday(Context context) throws FileNotFoundException {
+            NotificationManager notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
             File upcomingDeadlines = new File(context.getFilesDir(), getString(R.string.path__deadlines_upcoming));
             Scanner scnr = new Scanner(upcomingDeadlines).useDelimiter("\\Z");
             try {
@@ -82,7 +94,6 @@ public class DeadlineService extends Service {
                 JSONArray deadlinesInFuture = json.getJSONArray("deadlines");
                 scnr.close();
 
-                ArrayList<Deadline> deadlines = new ArrayList<Deadline>();
                 for (int i = 0; i < deadlinesInFuture.length(); i ++) {
                     int deadlineIndex = deadlinesInFuture.getJSONArray(i).getInt(1);
                     long due = deadlinesInFuture.getJSONArray(i).getLong(0);
@@ -111,18 +122,37 @@ public class DeadlineService extends Service {
                     // I do this because I only want to notify once but It might not evaluate this
                     //    line right at 12 hours. there may be a couple milliseconds delay.
                     //    Same with 2 hours.
-                    if (lessThan12Hours && greaterThan12Min100Millis) {
-                        deadlines.add(d);
-                    } else if (lessThan2Hours && greaterThan2Min100Millis) {
-                        deadlines.add(d);
-                    } else if (dueIn <= 0) {
-                        deadlines.add(d); // Deadline is done so eventually, delete it.
+                    if (lessThan12Hours && !d.alerted12) {
+                        NotificationCompat.Builder notificationBuilder = this.getNotification(d, false);
+                        notifyManager.notify(0, notificationBuilder.build());
+                        d.alerted12 = true;
+                        try {
+                            d.saveChanges(context);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (lessThan2Hours && !d.alerted2) {
+                        NotificationCompat.Builder notificationBuilder = this.getNotification(d, false);
+                        notifyManager.notify(0, notificationBuilder.build());
+                        d.alerted2 = true;
+                        try {
+                            d.saveChanges(context);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (dueIn <= 0 && !d.alertedDue) {
+                        NotificationCompat.Builder notificationBuilder = this.getNotification(d, true);
+                        notifyManager.notify(0, notificationBuilder.build());
+                        d.alertedDue = true;
+                        try {
+                            d.saveChanges(context);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-                return deadlines;
             } catch (JSONException e) {
                 e.printStackTrace();
-                return new ArrayList<Deadline>();
             }
         }
 
@@ -130,11 +160,12 @@ public class DeadlineService extends Service {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext());
             notificationBuilder.setSmallIcon(R.mipmap.planner_icon);
             if (!due) {
-                notificationBuilder.setContentTitle(d.getDescription());
+                notificationBuilder.setContentTitle("Due: " + d.getDescription());
+                notificationBuilder.setContentText(d.getDeadline().toString());
             } else {
                 notificationBuilder.setContentTitle("Due: " + d.getDescription());
+                notificationBuilder.setContentText("Now");
             }
-            notificationBuilder.setContentText(d.getDeadline().toString());
 
             Intent viewIntent = new Intent(getApplicationContext(), ActivityViewDeadline.class);
             viewIntent.putExtra("deadline_id", d.getId());

@@ -31,6 +31,9 @@ public class Deadline {
     private String description;                                                                     public String getDescription() { return this.description; }
     private String notes;                                                                           public String getNotes() { return this.notes; }
     private Calendar deadline;                                                                      public Calendar getDeadline() { return this.deadline; }
+    public boolean alerted12 = false;
+    public boolean alerted2 = false;
+    public boolean alertedDue = false;
     private ArrayList<BenchMark> benchmarks = new ArrayList<BenchMark>();                                   public ArrayList<BenchMark> getBenchmarks() { return this.benchmarks; }
 
     private String location;
@@ -75,12 +78,33 @@ public class Deadline {
             String desc = json.getString("description");
             String notes = json.getString("notes");
             Long deadline = json.getLong("deadline");
+            boolean alerted12 = false;
+            boolean alerted2 = false;
+            boolean alertedDue = false;
+            try {
+                alerted12 = json.getBoolean("alerted12");
+            } catch (JSONException e) {
+
+            }
+            try {
+                alerted2 = json.getBoolean("alerted2");
+            } catch (JSONException e) {
+
+            }
+            try {
+                alertedDue = json.getBoolean("alertedDue");
+            } catch (JSONException e) {
+
+            }
 
             this.description = desc;
             this.notes = notes;
             this.deadline = Calendar.getInstance();
             this.deadline.setTimeInMillis(deadline);
             this.readBenchmarks(json);
+            this.alerted12 = alerted12;
+            this.alerted2 = alerted2;
+            this.alertedDue = alertedDue;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -146,6 +170,11 @@ public class Deadline {
         pw.close();
 
         return id;
+    }
+
+    public void saveChanges(Context context) throws IOException {
+        this.delete(context);
+        this.save(context);
     }
 
     public void save(Context context) throws IOException {
@@ -290,6 +319,21 @@ public class Deadline {
         }
         try {
             json.put("deadline", this.deadline.getTimeInMillis());
+        } catch (JSONException e) {
+
+        }
+        try {
+            json.put("alerted12", this.alerted12);
+        } catch (JSONException e) {
+
+        }
+        try {
+            json.put("alerted2", this.alerted2);
+        } catch (JSONException e) {
+
+        }
+        try {
+            json.put("alertedDue", this.alertedDue);
         } catch (JSONException e) {
 
         }
