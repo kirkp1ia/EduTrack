@@ -37,6 +37,11 @@ public class DeadlineService extends Service {
 
     @Override
     public void onCreate() {
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId){
         if (this.deadlineNotifier == null) {
             this.deadlineNotifier = new DeadlineNotifierThread();
             Thread workerThread = new Thread(this.deadlineNotifier);
@@ -45,14 +50,7 @@ public class DeadlineService extends Service {
             Thread workerThread = new Thread(this.deadlineNotifier);
             workerThread.start();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (this.deadlineNotifier != null) {
-            this.deadlineNotifier.terminate();
-            this.deadlineNotifier = null;
-        }
+        return Service.START_STICKY;
     }
 
     @Nullable
