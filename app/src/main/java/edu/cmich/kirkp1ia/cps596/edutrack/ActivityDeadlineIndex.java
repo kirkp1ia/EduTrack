@@ -35,15 +35,6 @@ public class ActivityDeadlineIndex extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deadline_index);
 
-//        try {
-//            Deadline d1 = new Deadline(this.getApplicationContext(), Calendar.getInstance(), "haha", "yoyoyoyoyo");
-//            d1.save(this.getApplicationContext());
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.getBoolean("firstTime", false)) {
             try {
