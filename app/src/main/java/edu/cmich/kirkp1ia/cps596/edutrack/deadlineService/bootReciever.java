@@ -9,13 +9,13 @@ import android.widget.Toast;
  * Created by kirkp1ia on 11/21/16.
  */
 
-public class bootReciever extends BroadcastReceiver{
+public class BootReciever extends BroadcastReceiver{
 
     private static final String TAG = "Boot Reciever";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Booted!", Toast.LENGTH_LONG);
+        Toast.makeText(context, "Booted!", Toast.LENGTH_LONG).show();
         Intent serviceLauncher = new Intent(context, DeadlineService.class);
         context.startService(serviceLauncher);
     }

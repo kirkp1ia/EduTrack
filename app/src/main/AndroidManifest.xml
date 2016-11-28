@@ -19,10 +19,11 @@
         <activity android:name=".ActivityAddBenchmark"></activity>
         <activity android:name=".ActivityViewDeadline"></activity>
 
-        <receiver android:name=".deadlineService.bootReciever">
+        <receiver android:name=".deadlineService.BootReciever">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
         <service android:name=".deadlineService.DeadlineService"></service>

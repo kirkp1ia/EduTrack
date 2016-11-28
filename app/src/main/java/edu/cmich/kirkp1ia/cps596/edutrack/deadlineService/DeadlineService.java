@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,20 +62,12 @@ public class DeadlineService extends Service {
 
     private class DeadlineNotifierThread implements Runnable {
 
-        private volatile boolean running = false;
+        private volatile boolean running = true;
 
         @Override
         public void run() {
-            this.running = true;
-            try {
-                new File(getApplication().getFilesDir(), "deadlines/serviceRunning.txt").createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             while (this.running) {
-
                 try {
-                    Log.d(TAG, "hi");
                     this.getDueDeadlinesToday(getApplicationContext());
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -122,10 +113,10 @@ public class DeadlineService extends Service {
                     // I do this because I only want to notify once but It might not evaluate this
                     //    line right at 12 hours. there may be a couple milliseconds delay.
                     //    Same with 2 hours.
-                    if (lessThan12Hours && !d.alerted12) {
-                        NotificationCompat.Builder notificationBuilder = this.getNotification(d, false);
+                    if (dueIn <= 0 && !d.alertedDue) {
+                        NotificationCompat.Builder notificationBuilder = this.getNotification(d, true);
                         notifyManager.notify(0, notificationBuilder.build());
-                        d.alerted12 = true;
+                        d.alertedDue = true;
                         try {
                             d.saveChanges(context);
                         } catch (IOException e) {
@@ -140,10 +131,10 @@ public class DeadlineService extends Service {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    } else if (dueIn <= 0 && !d.alertedDue) {
-                        NotificationCompat.Builder notificationBuilder = this.getNotification(d, true);
+                    } else if (lessThan12Hours && !d.alerted12) {
+                        NotificationCompat.Builder notificationBuilder = this.getNotification(d, false);
                         notifyManager.notify(0, notificationBuilder.build());
-                        d.alertedDue = true;
+                        d.alerted12 = true;
                         try {
                             d.saveChanges(context);
                         } catch (IOException e) {
@@ -161,7 +152,7 @@ public class DeadlineService extends Service {
             notificationBuilder.setSmallIcon(R.mipmap.planner_icon);
             if (!due) {
                 notificationBuilder.setContentTitle("Due: " + d.getDescription());
-                notificationBuilder.setContentText(d.getDeadline().toString());
+                notificationBuilder.setContentText(d.getDeadlineString());
             } else {
                 notificationBuilder.setContentTitle("Due: " + d.getDescription());
                 notificationBuilder.setContentText("Now");
