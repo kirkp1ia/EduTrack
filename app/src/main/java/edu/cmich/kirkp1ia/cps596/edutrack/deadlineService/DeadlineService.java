@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -64,6 +65,7 @@ public class DeadlineService extends Service {
 
         @Override
         public void run() {
+            Looper.prepare();
             while (this.running) {
                 try {
                     this.getDueDeadlinesToday(getApplicationContext());
